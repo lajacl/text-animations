@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flex_color_picker/flex_color_picker.dart';
 
 void main() {
   runApp(MyApp());
@@ -19,6 +20,7 @@ class FadingTextAnimation extends StatefulWidget {
 class _FadingTextAnimationState extends State<FadingTextAnimation> {
   bool _isVisible = true;
   bool _isDayMode = true;
+  Color _textColor = Colors.black;
 
   void toggleVisibility() {
     setState(() {
@@ -30,6 +32,20 @@ class _FadingTextAnimationState extends State<FadingTextAnimation> {
     setState(() {
       _isDayMode = !_isDayMode;
     });
+  }
+
+  Future<void> _showColorPicker() async {
+    final newColor = await showColorPickerDialog(
+      context,
+      _textColor,
+      title: Text('Pick a color'),
+    );
+
+    if (newColor != _textColor) {
+      setState(() {
+        _textColor = newColor;
+      });
+    }
   }
 
   @override
@@ -44,6 +60,7 @@ class _FadingTextAnimationState extends State<FadingTextAnimation> {
               onPressed: _toggleMode,
               icon: Icon(_isDayMode ? Icons.mode_night : Icons.sunny),
             ),
+            IconButton(onPressed: _showColorPicker, icon: Icon(Icons.palette)),
           ],
         ),
         body: PageView(
@@ -52,9 +69,9 @@ class _FadingTextAnimationState extends State<FadingTextAnimation> {
               child: AnimatedOpacity(
                 opacity: _isVisible ? 1.0 : 0.0,
                 duration: Duration(seconds: 1),
-                child: const Text(
+                child: Text(
                   'Hello, Flutter!',
-                  style: TextStyle(fontSize: 24),
+                  style: TextStyle(fontSize: 24, color: _textColor),
                 ),
               ),
             ),
@@ -62,9 +79,9 @@ class _FadingTextAnimationState extends State<FadingTextAnimation> {
               child: AnimatedOpacity(
                 opacity: _isVisible ? 1.0 : 0.0,
                 duration: Duration(seconds: 2),
-                child: const Text(
+                child: Text(
                   'Bye, Flutter!',
-                  style: TextStyle(fontSize: 24),
+                  style: TextStyle(fontSize: 24, color: _textColor),
                 ),
               ),
             ),
