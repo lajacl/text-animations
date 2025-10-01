@@ -46,12 +46,29 @@ class _FadingTextAnimationState extends State<FadingTextAnimation> {
             ),
           ],
         ),
-        body: Center(
-          child: AnimatedOpacity(
-            opacity: _isVisible ? 1.0 : 0.0,
-            duration: Duration(seconds: 1),
-            child: Text('Hello, Flutter!', style: TextStyle(fontSize: 24)),
-          ),
+        body: PageView(
+          children: [
+            Center(
+              child: AnimatedOpacity(
+                opacity: _isVisible ? 1.0 : 0.0,
+                duration: Duration(seconds: 1),
+                child: const Text(
+                  'Hello, Flutter!',
+                  style: TextStyle(fontSize: 24),
+                ),
+              ),
+            ),
+            Center(
+              child: AnimatedOpacity(
+                opacity: _isVisible ? 1.0 : 0.0,
+                duration: Duration(seconds: 2),
+                child: const Text(
+                  'Bye, Flutter!',
+                  style: TextStyle(fontSize: 24),
+                ),
+              ),
+            ),
+          ],
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: toggleVisibility,
