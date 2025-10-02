@@ -20,7 +20,8 @@ class FadingTextAnimation extends StatefulWidget {
 class _FadingTextAnimationState extends State<FadingTextAnimation> {
   bool _isVisible = true;
   bool _isDayMode = true;
-  Color _textColor = Colors.black;
+  bool _showFrame = false;
+  Color _currentColor = Colors.black;
 
   void toggleVisibility() {
     setState(() {
@@ -37,15 +38,21 @@ class _FadingTextAnimationState extends State<FadingTextAnimation> {
   Future<void> _showColorPicker() async {
     final newColor = await showColorPickerDialog(
       context,
-      _textColor,
+      _currentColor,
       title: Text('Pick a color'),
     );
 
-    if (newColor != _textColor) {
+    if (newColor != _currentColor) {
       setState(() {
-        _textColor = newColor;
+        _currentColor = newColor;
       });
     }
+  }
+
+  void _switchBorderState(bool value) {
+    setState(() {
+      _showFrame = value;
+    });
   }
 
   @override
@@ -65,6 +72,7 @@ class _FadingTextAnimationState extends State<FadingTextAnimation> {
         ),
         body: PageView(
           children: [
+            // Page one
             Center(
               child: GestureDetector(
                 onTap: toggleVisibility,
@@ -73,23 +81,41 @@ class _FadingTextAnimationState extends State<FadingTextAnimation> {
                   duration: const Duration(seconds: 1),
                   child: Text(
                     'Hello, Flutter!',
-                    style: TextStyle(fontSize: 24, color: _textColor),
+                    style: TextStyle(fontSize: 24, color: _currentColor),
                   ),
                 ),
               ),
             ),
+            // Page two
             Center(
-              child: GestureDetector(
-                onTap: toggleVisibility,
-                child: AnimatedOpacity(
-                  curve: Curves.bounceOut,
-                  opacity: _isVisible ? 1.0 : 0.0,
-                  duration: const Duration(seconds: 2),
-                  child: Text(
-                    'Bye, Flutter!',
-                    style: TextStyle(fontSize: 24, color: _textColor),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: toggleVisibility,
+                    child: AnimatedOpacity(
+                      curve: Curves.bounceOut,
+                      opacity: _isVisible ? 1.0 : 0.0,
+                      duration: const Duration(seconds: 2),
+                      child: Text(
+                        'Bye, Flutter!',
+                        style: TextStyle(fontSize: 24, color: _currentColor),
+                      ),
+                    ),
                   ),
-                ),
+                  Padding(
+                    padding: EdgeInsetsGeometry.all(50),
+                    child: _showFrame
+                        ? ClipOval(child: Image.asset('assets/image.jpg'))
+                        : Image.asset('assets/image.jpg'),
+                  ),
+                  Text('Show Frame'),
+                  Switch(
+                    activeThumbColor: _currentColor,
+                    value: _showFrame,
+                    onChanged: _switchBorderState,
+                  ),
+                ],
               ),
             ),
           ],
