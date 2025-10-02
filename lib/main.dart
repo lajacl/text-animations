@@ -66,22 +66,29 @@ class _FadingTextAnimationState extends State<FadingTextAnimation> {
         body: PageView(
           children: [
             Center(
-              child: AnimatedOpacity(
-                opacity: _isVisible ? 1.0 : 0.0,
-                duration: Duration(seconds: 1),
-                child: Text(
-                  'Hello, Flutter!',
-                  style: TextStyle(fontSize: 24, color: _textColor),
+              child: GestureDetector(
+                onTap: toggleVisibility,
+                child: AnimatedOpacity(
+                  opacity: _isVisible ? 1.0 : 0.0,
+                  duration: const Duration(seconds: 1),
+                  child: Text(
+                    'Hello, Flutter!',
+                    style: TextStyle(fontSize: 24, color: _textColor),
+                  ),
                 ),
               ),
             ),
             Center(
-              child: AnimatedOpacity(
-                opacity: _isVisible ? 1.0 : 0.0,
-                duration: Duration(seconds: 2),
-                child: Text(
-                  'Bye, Flutter!',
-                  style: TextStyle(fontSize: 24, color: _textColor),
+              child: GestureDetector(
+                onTap: toggleVisibility,
+                child: AnimatedOpacity(
+                  curve: Curves.bounceOut,
+                  opacity: _isVisible ? 1.0 : 0.0,
+                  duration: const Duration(seconds: 2),
+                  child: Text(
+                    'Bye, Flutter!',
+                    style: TextStyle(fontSize: 24, color: _textColor),
+                  ),
                 ),
               ),
             ),
