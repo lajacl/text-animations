@@ -77,6 +77,11 @@ class _FadingTextAnimationState extends State<FadingTextAnimation> {
           ],
         ),
         body: PageView(
+          onPageChanged: (value) {
+            setState(() {
+              _isVisible = true;
+            });
+          },
           children: [
             // Page one
             Center(
