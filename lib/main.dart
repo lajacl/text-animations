@@ -65,9 +65,15 @@ class _FadingTextAnimationState extends State<FadingTextAnimation> {
           actions: [
             IconButton(
               onPressed: _toggleMode,
-              icon: Icon(_isDayMode ? Icons.mode_night : Icons.sunny),
+              icon: Icon(
+                _isDayMode ? Icons.mode_night : Icons.sunny,
+                color: _currentColor,
+              ),
             ),
-            IconButton(onPressed: _showColorPicker, icon: Icon(Icons.palette)),
+            IconButton(
+              onPressed: _showColorPicker,
+              icon: Icon(Icons.palette, color: _currentColor),
+            ),
           ],
         ),
         body: PageView(
@@ -121,6 +127,7 @@ class _FadingTextAnimationState extends State<FadingTextAnimation> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
+          backgroundColor: _currentColor,
           onPressed: toggleVisibility,
           child: Icon(Icons.play_arrow),
         ),
